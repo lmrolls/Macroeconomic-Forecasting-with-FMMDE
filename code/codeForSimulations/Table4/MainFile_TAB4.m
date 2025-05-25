@@ -62,11 +62,11 @@ TT_start    = [50 100 200];
 k0_start = [ 1 10 25];
 
 rmax  = 10;
-B     = 300;
+B     = 499;
 pval  = 0.05;
-cut   = false;
+cut   = true;
 boot  = "radem";
-nreps = 100;
+nreps = 1000;
 
 mOutRAT  = zeros(length(TT_start),length(NN_start),length(k0_start)); 
 mOutTest = zeros(length(TT_start),length(NN_start),length(k0_start));
@@ -86,8 +86,9 @@ for k00 = 1:length(k0_start)
             parfor rep = 1:nreps
                 disp(['rep= ',num2str(rep),'  ','T= ',num2str(T),'  ','N= ',num2str(N),'  ','k0= ',num2str(k0)])
 
-%                 substream = RandStream('mt19937ar', 'Seed', rep);
-%                 RandStream.setGlobalStream(substream);
+                rng_seed_offset = rep + k00 * 1000 + TT * 10000 + NN * 100000;
+                rng(rng_seed_offset, 'twister');
+
 
                 x                = fLeeShaoNonLinear(T,N);
                 mX               = standardize(x);    
@@ -106,7 +107,7 @@ for k00 = 1:length(k0_start)
             
             mOutTest(TT,NN,k00) = out(1);
             mOutRAT(TT,NN,k00) = out(2);
-            
+            save
         end
     end
 end

@@ -61,7 +61,7 @@ k0 = 1;
 pval = 0.05; 
 nIters = 1000; % Number of Monte Carlo replications (as per LaTeX: 1000)
 bootIter = 499;
-cut = true;
+cut = false;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

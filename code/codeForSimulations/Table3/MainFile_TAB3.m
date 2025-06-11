@@ -93,7 +93,7 @@ finalTable = table(sequentialTest_n200_T100, eigenvalueRatio_n200_T100, ...
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 tic
-for nt = 2:length(n_values)
+for nt = 1:length(n_values)
     n = n_values(nt);
     T = T_values(nt);
     disp(['Simulating for n = ', num2str(n), ', T = ', num2str(T)]);

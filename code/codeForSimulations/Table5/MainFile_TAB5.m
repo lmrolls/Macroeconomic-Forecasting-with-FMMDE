@@ -57,13 +57,13 @@ addpath('../DGPs');
 addpath('subfunctions');
 
 % Set random number generator for replicability
-rng(1, 'twister');
+rng(1);
 
 % Parameters
 NN_start = [100 300 500]; % Cross-sectional dimensions
 TT_start = [200 500 1000]; % Time-series dimensions
 rr = 3; % Number of factors
-nreps = 100; % Number of Monte Carlo replications
+nreps = 1000; % Number of Monte Carlo replications
 k0 = 1;
 
 % Initialize cell arrays for MSE storage (Linear and Nonlinear)
@@ -100,10 +100,10 @@ for TT = 1:length(TT_start)
         ytrue_nonlin = zeros(nreps, N);
         
         parfor rep = 1:nreps
-            disp(['Replication ', num2str(rep)]);
-            substream = RandStream('mt19937ar', 'Seed', rep);
-            RandStream.setGlobalStream(substream);
-
+            %disp(['Replication ', num2str(rep)]);
+            rng_seed_offset = rep + TT * 10000 + NN * 100000;
+            rng(rng_seed_offset, 'twister');
+            
             % Disable rank-deficient matrix warning
             warning('off', 'MATLAB:rankDeficientMatrix');
 
@@ -199,6 +199,8 @@ rMSFE_SW_lin = GM_mse_md_lin ./ GM_mse_sw_lin;
 rMSFE_LYB_lin = GM_mse_md_lin ./ GM_mse_lam_lin;
 rMSFE_SW_nonlin = GM_mse_md_nonlin ./ GM_mse_sw_nonlin;
 rMSFE_LYB_nonlin = GM_mse_md_nonlin ./ GM_mse_lam_nonlin;
+
+%%
 
 % Display results in table format
 disp('Table 5: Ratio of Average MSFE (FMMDE / SW and LYB) for Linear and Nonlinear Factors');

@@ -58,3 +58,62 @@ while thetaMethod <= 4 % Theta, the signal-to-noise parameter
     save
     thetaMethod = thetaMethod + 1;
 end
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+load('matlabMissing_r3.mat')
+finalTable2=finalTable;
+clear finalTable
+load('matlabN100T200.mat')
+
+r=3; DGP=2;thetaMethod=4;
+index = (r-2)*3 + DGP;
+
+finalTable.sequentialTest_n200_T100.rvar(index) = r;
+finalTable.sequentialTest_n200_T100.dgp(index) = DGP;
+finalTable.eigenvalueRatio_n200_T100.rvar(index) = r;
+finalTable.eigenvalueRatio_n200_T100.dgp(index) = DGP;
+
+if thetaMethod == 1
+    finalTable.sequentialTest_n200_T100.rx05(index) = finalTable2.sequentialTest_n200_T100.rx05(index) ;
+    finalTable.eigenvalueRatio_n200_T100.rx05(index) = finalTable2.eigenvalueRatio_n200_T100.rx05(index) ;
+elseif thetaMethod == 2
+    finalTable.sequentialTest_n200_T100.rx1(index) = finalTable2.sequentialTest_n200_T100.rx1(index);
+    finalTable.eigenvalueRatio_n200_T100.rx1(index) = finalTable.eigenvalueRatio_n200_T100.rx1(index);
+elseif thetaMethod == 3
+    finalTable.sequentialTest_n200_T100.rx3(index) = finalTable2.sequentialTest_n200_T100.rx3(index);
+    finalTable.eigenvalueRatio_n200_T100.rx3(index) = finalTable2.eigenvalueRatio_n200_T100.rx3(index);
+elseif thetaMethod == 4
+    finalTable.sequentialTest_n200_T100.rx5(index) = finalTable2.sequentialTest_n200_T100.rx5(index);
+    finalTable.eigenvalueRatio_n200_T100.rx5(index) = finalTable2.eigenvalueRatio_n200_T100.rx5(index);
+end
+
+
+r=3; DGP=3;
+for thetaMethod=1:4
+    index = (r-2)*3 + DGP;
+
+    finalTable.sequentialTest_n200_T100.rvar(index) = r;
+    finalTable.sequentialTest_n200_T100.dgp(index) = DGP;
+    finalTable.eigenvalueRatio_n200_T100.rvar(index) = r;
+    finalTable.eigenvalueRatio_n200_T100.dgp(index) = DGP;
+
+    if thetaMethod == 1
+        finalTable.sequentialTest_n200_T100.rx05(index) = finalTable2.sequentialTest_n200_T100.rx05(index) ;
+        finalTable.eigenvalueRatio_n200_T100.rx05(index) = finalTable2.eigenvalueRatio_n200_T100.rx05(index) ;
+    elseif thetaMethod == 2
+        finalTable.sequentialTest_n200_T100.rx1(index) = finalTable2.sequentialTest_n200_T100.rx1(index);
+        finalTable.eigenvalueRatio_n200_T100.rx1(index) = finalTable.eigenvalueRatio_n200_T100.rx1(index);
+    elseif thetaMethod == 3
+        finalTable.sequentialTest_n200_T100.rx3(index) = finalTable2.sequentialTest_n200_T100.rx3(index);
+        finalTable.eigenvalueRatio_n200_T100.rx3(index) = finalTable2.eigenvalueRatio_n200_T100.rx3(index);
+    elseif thetaMethod == 4
+        finalTable.sequentialTest_n200_T100.rx5(index) = finalTable2.sequentialTest_n200_T100.rx5(index);
+        finalTable.eigenvalueRatio_n200_T100.rx5(index) = finalTable2.eigenvalueRatio_n200_T100.rx5(index);
+    end
+end
+

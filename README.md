@@ -1,166 +1,117 @@
-# Macroeconomic Forecasting with FMMDE
-Reproducibility Package for Macroeconomic Forecasting using Factor Models with Martingale Difference Errors
+Macroeconomic Forecasting with FMMDE
+Reproducibility Package for "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors"
 
-## Package Information
-- **Date Assembled**: April 23, 2025
-- **Author(s)**: Luca Mattia Rolla, Alessandro Giovannelli
-- **Contact**: Luca Mattia Rolla (lmrolla92@gmail.com, University of Rome “Tor Vergata”, Italy), Alessandro Giovannelli (alessandro.giovannelli@univaq.it, University of L'Aquila, Italy)
-- **Repository URL**: https://github.com/lmrolls/Macroeconomic-Forecasting-with-FMMDE
+Package Information
+Date Assembled: April 23, 2025
 
-## Overview
-This repository contains the code and documentation to reproduce the results in "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors" by Luca Mattia Rolla and Alessandro Giovannelli, submitted to *International Journal of Forecasting*. The package reproduces the paper's tables (1–5), which are based on simulations, and figures, which are part of the empirical analysis. The empirical analysis is forthcoming and not yet fully included.
+Author(s): Luca Mattia Rolla, Alessandro Giovannelli
 
-## Repository Structure
-- `code/`: MATLAB scripts and functions.
-  - `codeForSimulations/`: Scripts for simulations (Tables 1–5).
-    - `DGPs/`: Data-generating process functions.
-      - `fLeeShao.m`: Generates simulated data for a three-dimensional linear factor model as described in Example 5 of Lee & Shao (2018).
-      - `fLeeShaoNonLinear.m`: Generates simulated data for a three-dimensional nonlinear factor model as described in Example 6 of Lee & Shao (2018).
-    - `factorEstimation/`: Factor estimation methods.
-      - `factorLAM.m`: Estimates a factor model using the cumulative linear covariance matrix with spectral decomposition and eigenvalue ratio method, as described in Lam et al. (2011) and Lam & Yao (2012).
-      - `factorMDDM.m`: Estimates a factor model using the cumulative Martingale Difference Divergence Matrix (CMDDM) with spectral decomposition and eigenvalue ratio method, as described in Lee & Shao (2018).
-      - `factorMDDM4.m`: Variant of MDDM method.
-      - `factorMDDMtab4.m`: MDDM method specific to Table 4.
-      - `fixedFactorLAM.m`: Estimates a factor model with a fixed number of factors using the cumulative linear covariance matrix, as described in Lam et al. (2011) and Lam & Yao (2012).
-      - `fixedFactorsMDDM.m`: Estimates a factor model with a fixed number of factors using the cumulative Martingale Difference Divergence Matrix (CMDDM), as described in Lee & Shao (2018).
-      - `MDDM.m`: Computes the Martingale Difference Divergence Matrix (MDDM) between two vector time series, as described in Lee & Shao (2018).
-      - `seqTest.m`: Implements a sequential testing procedure to determine the number of latent factors in FMMDE models, based on methods in Lee & Shao (2018), Wang et al. (2022), and Lam & Yao (2011).
-      - `stockwatson2002.m`: Estimates a factor model using principal components, as described in Stock & Watson (2002a, 2002b).
-    - `subfunctionsTAB123/`: Helper functions for Tables 1–3.
-      - `factorSim.m`: Helper function for factor simulations.
-      - `SimulFun.m`: Core simulation function.
-      - `standardize.m`: Helper function for data standardization.
-    - `Table1/`: Scripts for Table 1.
-      - `MainFile_TAB1.m`: Script for Table 1 Monte Carlo simulations.
-    - `Table2/`: Scripts for Table 2.
-      - `MainFile_TAB2.m`: Script for Table 2 Monte Carlo simulations.
-    - `Table3/`: Scripts for Table 3.
-      - `MainFile_TAB3.m`: Script for Table 3 Monte Carlo simulations.
-    - `Table4/`: Scripts for Table 4.
-      - `MainFile_TAB4.m`: Main script.
-      - `Tab4.xlsx`: Output file.
-      - `subfunctions/standardize.m`: Helper function for data standardization.
-    - `Table5/`: Scripts for Table 5.
-      - `MainFile_TAB5.m`: Main script.
-      - `Table5_MSFE_Ratios.xlsx`: Output file.
-      - `subfunctions/standardize.m`: Helper function for data standardization.
-  - `empiricalAnalysis/`: Scripts and data for empirical analysis (figures).
-    - `plotsLuca/`: Scripts and data for figures.
-      - `nfactors.mat`: Data for number of factors plot.
-      - `nfactorsBAI.mat`: Data for BAI factors plot.
-      - `nfactorsEIG.mat`: Data for eigenvalue-based factors plot.
-      - `plots.m`: Script to generate figures.
-- `outputFromSimulations/`: Output files from simulations.
-  - `tables/`: Output tables.
-    - `Tab_1.xlsx`: Output file containing simulation results for Table 1.
-- `README.md`: This file.
-- `LICENSE`: MIT License.
+Contact: Luca Mattia Rolla (lmrolla92@gmail.com, University of Rome “Tor Vergata”, Italy), Alessandro Giovannelli (alessandro.giovannelli@univaq.it, University of L'Aquila, Italy)
 
-## Computing Environment for Simulations
-- **Software**: MATLAB R2023b
-- **Toolboxes**:
-  - Statistics and Machine Learning Toolbox (12.4)
-  - Linear Algebra (MATLAB core)
-  - Parallel Computing Toolbox
-- **License**: MIT License (see `LICENSE`)
-- **Hardware**: Tested on a desktop computer with the following specifications:
-  - **CPU**: Intel Core i7-9700 (8 cores, 8 threads, 3.00 GHz base, up to 4.70 GHz turbo)
-  - **RAM**: 16 GB DDR4-2666
-  - **Storage**: 512 GB SSD
-  - **Operating System**: Windows 10
-- **Setup Instructions**:
-  1. Install MATLAB R2023b.
-  2. Ensure required toolboxes are installed (see above).
-  3. Clone this repository: `git clone https://github.com/lmrolls/Macroeconomic-Forecasting-with-FMMDE.git` or download as a ZIP.
-  4. Open MATLAB and set the working directory to `code/`:
-     ```matlab
-     cd('path/to/Macroeconomic-Forecasting-with-FMMDE/code');
-     ```
-  5. Add paths manually or create a `startup.m` script (not included) to add all subfolders:
-     ```matlab
-     addpath(genpath('codeForSimulations'));
-     addpath(genpath('empiricalAnalysis'));
-     ```
+Repository URL: https://github.com/lmrolls/Macroeconomic-Forecasting-with-FMMDE
 
-## Computing Environment for the Empirical Analysis
-- **Note**: The empirical analysis is not yet fully included in this package. The `empiricalAnalysis/plotsLuca/` folder contains scripts and data for generating figures, but a complete setup (e.g., data sources, additional toolboxes) is not provided. Details will be provided in a future update. Contact the authors for more information.
+Overview
+This repository contains the code to reproduce the results in "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors." The package allows for the full replication of the paper's simulation studies and its empirical analysis. All results were obtained using the MATLAB Parallel Computing Toolbox to speed up computations. All scripts that are present in this repository exactly reproduce the outputs that are available in this folder in various forms (excel tables, latex code and .mat files) under a fixed seed. They do not exactly match the results presented in the paper that were obtained without setting a specific seed.
 
-## Data
-- **Sharable Data**: Tables 1–5 are based on simulations, and data are generated by scripts in `codeForSimulations/DGPs/` (e.g., `fLeeShao.m`, `fLeeShaoNonLinear.m`). The figures in `empiricalAnalysis/plotsLuca/` may require external datasets (e.g., FRED-MD, as described in McCracken & Ng, 2016), which are not included in the repository. Details on accessing these datasets will be provided in a future update.
-- **Non-Sharable Data**: Not applicable for the current simulation-based tables. If empirical data are added in the future, access instructions will be provided in a `data/external/non_sharable_data.md` file.
-- **Intermediary Data**: Outputs like `Tab_1.xlsx`, `Tab4.xlsx`, and `Table5_MSFE_Ratios.xlsx` are generated by the simulation scripts and saved in `outputFromSimulations/tables/` (for Table 1) and `codeForSimulations/Table4/` or `Table5/` (for Tables 4–5).
+Main Script for Empirical Analysis: sMasterEmpiricalApplication.m
+Located in the main folder, sMasterEmpiricalApplication.m is the master script that controls the entire empirical analysis workflow.
 
-## Running the Reproducibility Check
-- **Computer Used**: Desktop computer with Intel Core i7-9700 (8 cores, 8 threads, 3.00 GHz base, up to 4.70 GHz turbo), 16 GB DDR4-2666 RAM, 512 GB SSD, Windows 10.
-- **Instructions**:
-  1. Clone the repository: `git clone https://github.com/lmrolls/Macroeconomic-Forecasting-with-FMMDE.git`.
-  2. Open MATLAB and set the working directory to `code/`:
-     ```matlab
-     cd('path/to/Macroeconomic-Forecasting-with-FMMDE/code');
-     ```
-  3. Add paths:
-     ```matlab
-     addpath(genpath('codeForSimulations'));
-     addpath(genpath('empiricalAnalysis'));
-     ```
-  4. Run analysis scripts:
-     - For Table 1:
-       ```matlab
-       run('codeForSimulations/Table1/MainFile_TAB1.m');
-       ```
-       Output: `outputFromSimulations/tables/Tab_1.xlsx`
-     - For Table 2:
-       ```matlab
-       run('codeForSimulations/Table2/MainFile_TAB2.m');
-       ```
-       Output: To be saved in `outputFromSimulations/tables/` (e.g., `Tab_2.xlsx`, not explicitly listed in provided structure).
-     - For Table 3:
-       ```matlab
-       run('codeForSimulations/Table3/MainFile_TAB3.m');
-       ```
-       Output: To be saved in `outputFromSimulations/tables/` (e.g., `Tab_3.xlsx`, not explicitly listed in provided structure).
-     - For Table 4:
-       ```matlab
-       run('codeForSimulations/Table4/MainFile_TAB4.m');
-       ```
-       Output: `codeForSimulations/Table4/Tab4.xlsx`
-     - For Table 5:
-       ```matlab
-       run('codeForSimulations/Table5/MainFile_TAB5.m');
-       ```
-       Output: `codeForSimulations/Table5/Table5_MSFE_Ratios.xlsx`
-     - For Figures:
-       ```matlab
-       run('empiricalAnalysis/plotsLuca/plots.m');
-       ```
-       Outputs: Figures generated from `nfactors.mat`, `nfactorsBAI.mat`, `nfactorsEIG.mat`
-  5. Outputs are saved in their respective folders (e.g., `outputFromSimulations/tables/` for Table 1, `codeForSimulations/Table4/` for Table 4, `codeForSimulations/Table5/` for Table 5).
+How It Works
+This script is designed to run the complete analysis smoothly. Its primary functions are to:
 
-## Mapping Code to Paper Outputs
-- **Table 1**: Generated by `codeForSimulations/Table1/MainFile_TAB1.m` using functions in `subfunctionsTAB123/` (`factorSim.m`, `SimulFun.m`, `standardize.m`). Output: `outputFromSimulations/tables/Tab_1.xlsx`.
-- **Table 2**: Generated by `codeForSimulations/Table2/MainFile_TAB2.m` using functions in `subfunctionsTAB123/`. Output: Expected in `outputFromSimulations/tables/` (e.g., `Tab_2.xlsx`).
-- **Table 3**: Generated by `codeForSimulations/Table3/MainFile_TAB3.m` using functions in `subfunctionsTAB123/`. Output: Expected in `outputFromSimulations/tables/` (e.g., `Tab_3.xlsx`).
-- **Table 4**: Generated by `codeForSimulations/Table4/MainFile_TAB4.m` using `subfunctions/standardize.m`. Output: `codeForSimulations/Table4/Tab4.xlsx`.
-- **Table 5**: Generated by `codeForSimulations/Table5/MainFile_TAB5.m` using `subfunctions/standardize.m`. Output: `codeForSimulations/Table5/Table5_MSFE_Ratios.xlsx`.
-- **Figures**: Generated by `empiricalAnalysis/plotsLuca/plots.m` using `nfactors.mat`, `nfactorsBAI.mat`, and `nfactorsEIG.mat`.
+Set Up the Environment: It automatically adds all necessary subdirectories from the code folder to the MATLAB path. This ensures that all functions and toolboxes are correctly loaded without needing manual adjustments.
 
-## Notes
-- Ensure MATLAB and required toolboxes are installed.
-- Tables 1–5 are based on simulations using data generated by scripts in `codeForSimulations/DGPs/`. The figures in `empiricalAnalysis/plotsLuca/` are part of the empirical analysis, which is not yet fully included and may require external datasets (e.g., FRED-MD, McCracken & Ng, 2016) in a future update.
-- Outputs for Tables 2 and 3 are not explicitly listed in the provided structure but are expected to be saved in `outputFromSimulations/tables/`. Verify output file names (e.g., `Tab_2.xlsx`, `Tab_3.xlsx`) after running the scripts.
-- Contact lmrolla92@gmail.com or alessandro.giovannelli@univaq.it for questions or issues.
+Execute the Analysis: It calls and runs the required scripts from the empiricalAnalysis folder in the correct order to generate the results.
 
-## References
-- Lam, C., & Yao, Q. (2012). Factor modeling for high-dimensional time series: Inference for the number of factors. *The Annals of Statistics*, 40(2), 694–726. DOI: 10.1214/12-AOS970
-- Lam, C., Yao, Q., & Bathia, N. (2011). Estimation of latent factors for high-dimensional time series. *Biometrika*, 98(4), 901–918. DOI: 10.1093/biomet/asr047
-- Lee, C. E., & Shao, X. (2018). Martingale Difference Divergence Matrix and its application to dimension reduction for stationary multivariate time series. *Journal of the American Statistical Association*, 113(521), 216–229. DOI: 10.1080/01621459.2016.1240082
-- McCracken, M. W., & Ng, S. (2016). FRED-MD: A monthly database for macroeconomic research. *Journal of Business & Economic Statistics*, 34(4), 574–589.
-- Stock, J. H., & Watson, M. W. (2002a). Forecasting using principal components from a large number of predictors. *Journal of the American Statistical Association*, 97(460), 1167–1179.
-- Stock, J. H., & Watson, M. W. (2002b). Macroeconomic forecasting using diffusion indexes. *Journal of Business & Economic Statistics*, 20(2), 147–162.
-- Wang, G., Zhu, K., & Shao, X. (2022). Testing for the Martingale Difference Hypothesis in Multivariate Time Series Models.
+To ensure it works correctly, you must set your current working directory in MATLAB to the root folder of this project before running the script.
 
-## License
-This package is licensed under the MIT License (see `LICENSE`).
+Repository Structure
+The project's code is located in the code/ folder, which is organized into two main subdirectories:
 
-## Acknowledgments
-The authors are grateful to Tommaso Proietti for his valuable and insightful comments, which led to several improvements in both the presentation and the content of the paper. The authors are also grateful to the participants of the 41st International Symposium on Forecasting 2022. Alessandro Giovannelli gratefully acknowledges financial support from the Italian Ministry of Education, University and Research, Progetti di Ricerca di Interesse Nazionale, research project 2020-2023, project 2020N9YFFE.
+code/codeForSimulations: Contains all scripts for the Monte Carlo simulations. By running the main files in the subfolders (e.g., Table1, Table2), you can generate Tables 1 through 5 in the paper. All script outputs are saved in the outputFromSimulations folder, which contains final results (Excel tables, LaTeX code) and intermediary data (.mat files). The scripts use a fixed seed, ensuring that the same output files can be reproduced.
+
+Note on Table 3: The reproduction of Table 3 results can be lengthy. To reduce the computational burden, you can set the option cut = true; in the script. This applies a truncation solution detailed in Appendix B of the paper. Results for this truncated case are also available in the outputFromSimulations folder.
+
+The output in LaTeX format is generated using the latexTable function by Eli Duenisch (2025).
+
+code/empiricalAnalysis: Includes the scripts and functions required to perform the empirical analysis and generate the corresponding figures and tables.
+
+Data Information
+Simulation Data: The data for the simulation studies (Tables 1-5) is generated by the scripts located in code/codeForSimulations/DGPs/.
+
+Empirical Data: The empirical analysis uses the FRED-MD database (McCracken & Ng, 2016), which is publicly available. As described in the paper, all series are pre-processed to ensure stationarity through differencing, logarithms, or differences of logarithms. The necessary data file, current_May2024.csv, is included in the code/empiricalAnalysis/Data folder.
+
+Mapping Code to Paper Outputs
+Tables 1-5 (Simulations): Generated by the MainFile_TAB*.m scripts within the corresponding code/codeForSimulations/Table* folders.
+
+Tables 6-11 (Empirical Analysis): Generated by the master script, sMasterEmpiricalApplication.m.
+
+Figures: Generated by empiricalAnalysis/plotsLuca/plots.m.
+
+How to Run the Analysis
+Clone the Repository.
+
+Open MATLAB and navigate to the cloned repository's main (root) folder.
+
+Run the Empirical Analysis:
+
+run sMasterEmpiricalApplication.m
+
+Run Individual Simulations (Optional): To run a specific simulation for a table, you can execute its main file directly. For example, for Table 1:
+
+run code/codeForSimulations/Table1/MainFile_TAB1.m
+
+System and Software Environment
+The results in the paper were obtained using the following environments.
+
+Simulation Analysis
+Hardware:
+
+CPU: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+
+OS: Microsoft Windows 10 Pro (64-bit, Version 10.0, Build 19045)
+
+Expected Runtime: The runtime for simulations varies. For example, a simulation with n=200 variables and T=200 time periods takes approximately 100 seconds on the specified hardware. Please see Appendix B of the paper for detailed computational times under various scenarios.
+
+Software:
+
+MATLAB Version: 9.13.0.2080170 (R2022b) Update 1
+
+Java Version: Java 1.8.0_202-b08 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM
+
+MATLAB Toolboxes:
+
+MATLAB Version 9.13 (R2022b)
+
+Curve Fitting Toolbox Version 3.8 (R2022b)
+
+Deep Learning Toolbox Version 14.5 (R2022b)
+
+Econometrics Toolbox Version 6.1 (R2022b)
+
+Financial Toolbox Version 6.4 (R2022b)
+
+Global Optimization Toolbox Version 4.8 (R2022b)
+
+Optimization Toolbox Version 9.4 (R2022b)
+
+Parallel Computing Toolbox Version 7.7 (R2022b)
+
+Statistics and Machine Learning Toolbox Version 12.4 (R2022b)
+
+Symbolic Math Toolbox Version 9.2 (R2022b)
+
+Empirical Analysis
+Environment details to be added.
+
+References
+Duenisch, E. (2025). latexTable (https://github.com/eliduenisch/latexTable), GitHub.
+
+Lam, C., & Yao, Q. (2012). Factor modeling for high-dimensional time series: Inference for the number of factors. The Annals of Statistics, 40(2), 694–726.
+
+Lee, C. E., & Shao, X. (2018). Martingale Difference Divergence Matrix and its application to dimension reduction for stationary multivariate time series. Journal of the American Statistical Association, 113(521), 216–229.
+
+McCracken, M. W., & Ng, S. (2016). FRED-MD: A monthly database for macroeconomic research. Journal of Business & Economic Statistics, 34(4), 574–589.
+
+License
+This package is licensed under the MIT License (see LICENSE file).

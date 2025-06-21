@@ -1,0 +1,84 @@
+%% ========================================================================
+%               MASTER SCRIPT FOR ROLLING ANALYSIS
+% =========================================================================
+%% This master script controls the entire analysis workflow.
+
+%% ========================================================================
+%% To ensure that all subfolders are correctly loaded, make sure to set your 
+%% current working directory to the outermost level of the project folder. 
+%% This guarantees that the script will automatically add all relevant 
+%% subdirectories to the MATLAB path, allowing the empirical application to 
+%% run smoothly without requiring manual adjustments.
+%% Add folders containing data and supplementary toolboxes (functions)
+%% ========================================================================
+%
+% - Method 1: Direct calling (simple, for scripts in the same folder).
+% - Method 2: Using run() from a subfolder (recommended for organization).
+%
+% It also adds a 'utils' folder for shared helper functions.
+%
+% Created: 15-Jun-2025
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% ========================================================================
+%  0. INITIAL SETUP
+%  ========================================================================
+%  Clear workspace and set up the necessary paths for the project.
+clear; clc; close all;
+disp('--- [SETUP] Initializing environment...');
+%%=========== SAVING OUTPUT ========================
+baseFolder    = pwd;
+output_folder = fullfile(baseFolder, 'OutputForecast');
+output_folder = char(java.io.File(output_folder).getCanonicalPath());  % normalizza
+% === Crea se non esiste
+if ~exist(output_folder, 'dir')
+    mkdir(output_folder);
+end
+addpath(genpath(baseFolder));
+disp('--- [SETUP] Environment ready.');
+disp(' ');
+
+%% ========================================================================
+%               CHOOSE ONE METHOD TO RUN THE ANALYSIS
+% =========================================================================
+% =========================================================================
+%  METHOD 2: USING run() FROM A SUBFOLDER (The "After" / Recommended Version)
+% =========================================================================
+
+
+
+disp('--- [METHOD 2] Starting analysis using run() FROM SUBFOLDER...');
+
+% --- Machine Learning ---
+disp('--> Running Machine Learning procedures...');
+run('USA_Rolling_Rev1_XGBoosting.m');
+run('USA_Rolling_Rev1_SparsePCA.m');
+run('USA_Rolling_Rev1_FastICA.m');
+disp('...Machine Learning complete.');
+disp(' ');
+
+% --- MDDM ---
+disp('--> Running MDDM procedures...');
+run('USA_Rolling_Rev1_MDTest.m');
+run('USA_Rolling_Rev1_FixedFactors_MD.m');
+run('USA_Rolling_Rev1_ScreeMD.m');
+disp('...MDDM complete.');
+disp(' ');
+
+% --- LAM Yao Bathia ---
+disp('--> Running LAM Yao Bathia procedures...');
+run('USA_Rolling_Rev1_LAM.m');
+run('USA_Rolling_Rev1_FixedFactors_LAM.m');
+disp('...LAM Yao Bathia complete.');
+disp(' ');
+
+
+% --- Cross Validation ---
+disp('--> Running Cross Validation procedure...');
+run('USA_Rolling_Rev1_CVAllModels_v2.m');
+disp('...Cross Validation complete.');
+disp(' ');
+
+
+disp('--- [METHOD 2] All procedures finished. ---');

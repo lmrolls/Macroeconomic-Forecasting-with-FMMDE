@@ -1,3 +1,6 @@
+Of course. Here is the full text of the `README.md` file from the canvas, formatted with clear indentation.
+
+````markdown
 # Macroeconomic Forecasting with FMMDE
 
 Reproducibility Package for "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors"
@@ -11,7 +14,16 @@ Reproducibility Package for "Macroeconomic Forecasting using Factor Models with 
 
 ## Overview
 
-This repository contains the code to reproduce the results in "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors." The package allows for the full replication of the paper's simulation studies and its empirical analysis. All results were obtained using the **MATLAB Parallel Computing Toolbox** to speed up computations. All scripts that are present in this repository exactly reproduce the outputs that are available in this folder in various forms (excel tables, latex code and .mat files) under a fixed seed. They do not exactly match the results presented in the paper that were obtained without setting a specific seed.
+This repository contains the code and data to reproduce the results for the paper "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors."
+
+The paper analyzes the forecasting performance of a new class of factor models with martingale difference errors (FMMDE; Lee and Shao, 2018). The model's properties are evaluated against an array of alternative forecasting methods, including other factor models like those proposed by Lam and Yao (2012) and Stock and Watson (2002a, 2002b). Additionally, its performance is assessed against techniques more typically used in the machine learning literature, such as sparse principal component analysis, independent component analysis (ICA), gradient boosting, and cross-validation methods.
+
+The paper's main contributions are twofold:
+
+1.  It introduces a **novel sequential testing methodology** for selecting the number of factors in FMMDE models and demonstrates its effectiveness through simulations.
+2.  It conducts an extensive empirical analysis comparing FMMDE with alternative methods to improve predictions of U.S. macroeconomic aggregates, using the comprehensive FRED-MD dataset.
+
+All results in this package were obtained using the **MATLAB Parallel Computing Toolbox** to speed up computations. The scripts exactly reproduce the outputs available in this repository (Excel tables, LaTeX code, `.mat` files) under a fixed seed. Note that these may not perfectly match the results in the final paper, which were obtained without setting a specific seed.
 
 ## Main Script for Empirical Analysis: `sMasterEmpiricalApplication.m`
 
@@ -26,19 +38,25 @@ This script is designed to run the complete analysis smoothly. Its primary funct
 
 To ensure it works correctly, you must **set your current working directory in MATLAB to the root folder** of this project before running the script.
 
+## Sequential Testing Algorithm: `seqTest.m`
+
+The function `seqTest.m` implements the sequential testing procedure for factor selection in FMMDE models, as described in Section 3 of the paper. This function is a core component of the simulation studies and is used to determine the number of latent factors in the model.
+
 ## Repository Structure
 
 The project's code is located in the `code/` folder, which is organized into two main subdirectories:
 
-* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations. By running the main files in the subfolders (e.g., `Table1`, `Table2`), you can generate **Tables 1 through 5** in the paper. All script outputs are saved in the `outputFromSimulations` folder, which contains final results (Excel tables, LaTeX code) and **intermediary data** (`.mat` files). The scripts use a fixed seed, ensuring that the same output files can be reproduced.
-    * **Note on Table 3**: The reproduction of Table 3 results can be lengthy. To reduce the computational burden, you can set the option `cut = true;` in the script. This applies a truncation solution detailed in Appendix B of the paper. Results for this truncated case are also available in the `outputFromSimulations` folder.
+* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations. By running the main files in the subfolders (e.g., `Table1`, `Table2`), you can generate **Tables 1 through 5** in the paper. All script outputs are saved in the `outputFromSimulations` folder, which contains `.mat` files, Excel tables, and LaTeX code with the simulation results. The scripts use a fixed seed, ensuring that the same output files can be reproduced.
+    * **Note on Simulations**: For detailed information on the simulation setup and computational performance, please refer to **Appendix B** of the paper. It discusses methods to speed up heavy computations, such as a truncation argument (`n/2`). This option can be enabled in the `seqTest.m` function by setting the argument `cut = true;`, which is particularly useful for lengthy reproductions like Table 3.
     * The output in LaTeX format is generated using the `latexTable` function by Eli Duenisch (2025).
 * `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis and generate the corresponding **figures and tables**.
 
 ## Data Information
 
 * **Simulation Data**: The data for the simulation studies (Tables 1-5) is generated by the scripts located in `code/codeForSimulations/DGPs/`.
-* **Empirical Data**: The empirical analysis uses the **FRED-MD database** (McCracken & Ng, 2016), which is publicly available. As described in the paper, all series are pre-processed to ensure stationarity through differencing, logarithms, or differences of logarithms. The necessary data file, `current_May2024.csv`, is included in the `code/empiricalAnalysis/Data` folder.
+* **Empirical Data**:
+    * The primary empirical analysis uses the **FRED-MD database** (McCracken & Ng, 2016), which is publicly available. As described in the paper, all series are pre-processed to ensure stationarity through differencing, logarithms, or differences of logarithms. The necessary data file, `current_May2024.csv`, is included in the `code/empiricalAnalysis/Data` folder.
+    * For the analysis including the COVID-19 pandemic, the model uses data on monthly deaths to 'de-COVID' the series, following the approach of **Ng (2021)**. The required data file, `dataCovidSerenaNg.csv`, is also included in the `code/empiricalAnalysis/Data` folder.
 
 ## Mapping Code to Paper Outputs
 
@@ -94,7 +112,11 @@ The results in the paper were obtained using the following environments.
 * Lam, C., & Yao, Q. (2012). Factor modeling for high-dimensional time series: Inference for the number of factors. *The Annals of Statistics*, 40(2), 694–726.
 * Lee, C. E., & Shao, X. (2018). Martingale Difference Divergence Matrix and its application to dimension reduction for stationary multivariate time series. *Journal of the American Statistical Association*, 113(521), 216–229.
 * McCracken, M. W., & Ng, S. (2016). FRED-MD: A monthly database for macroeconomic research. *Journal of Business & Economic Statistics*, 34(4), 574–589.
+* Ng, S. (2021). Modeling macroeconomic variations after covid-19 (Tech. Rep.). National Bureau of Economic Research.
+* Stock, J. H., & Watson, M. W. (2002a). Forecasting using principal components from a large number of predictors. *Journal of the American Statistical Association*, 97(460), 1167–1179.
+* Stock, J. H., & Watson, M. W. (2002b). Macroeconomic forecasting using diffusion indexes. *Journal of Business & Economic Statistics*, 20(2), 147–162.
 
 ## License
 
 This package is licensed under the MIT License (see `LICENSE` file).
+````

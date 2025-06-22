@@ -1,6 +1,4 @@
-Of course. Here is the full text of the `README.md` file from the canvas, formatted with clear indentation.
 
-````markdown
 # Macroeconomic Forecasting with FMMDE
 
 Reproducibility Package for "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors"

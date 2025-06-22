@@ -22,20 +22,30 @@ The paper's main contributions are twofold:
 
 All results in this package were obtained using the **MATLAB Parallel Computing Toolbox** to speed up computations. The scripts exactly reproduce the outputs available in this repository (Excel tables, LaTeX code, `.mat` files) under a fixed seed. Note that these may not perfectly match the results in the final paper, which were obtained without setting a specific seed.
 
-## Main Script for Empirical Analysis: `sMasterEmpiricalApplication.m`
+## Getting Started: How to Run the Analysis
 
-Located in the main folder, `sMasterEmpiricalApplication.m` is the **master script** that controls the entire empirical analysis workflow.
+To run the analysis, first ensure your system meets the requirements listed in the "System and Software Environment" section. Then, clone the repository and open MATLAB.
 
-### How It Works
+### Running the Full Empirical Analysis
 
-This script orchestrates the analysis by calling functions from the `code/empiricalAnalysis` folder. The workflow is as follows:
+The entire empirical analysis can be executed by running the master script from the project's root directory.
 
-1.  The script first calls the various out-of-sample analysis scripts located in `code/empiricalAnalysis/MainReplication/MainForecast/`. These scripts generate initial forecast results for each method across a grid of parameter values.
-2.  The results are then loaded by `USA_Rolling_Rev1_CVAllModels_v2.m` (also in the `MainForecast` folder), which refines them by applying the rolling time series cross-validation procedure described in the paper to select the optimal parameters.
+* **Master Script**: `sMasterEmpiricalApplication.m`
+* **Description**: This script orchestrates the full analysis workflow. It begins by calling various out-of-sample forecasting scripts located in `code/empiricalAnalysis/MainReplication/MainForecast/`. It then uses `USA_Rolling_Rev1_CVAllModels_v2.m` to apply the rolling time series cross-validation procedure, selecting the optimal parameters for each model. The final cross-validated results are the inputs for the scripts in the `ReplicationTables` folder, which generate Tables 6-11.
+* **Command**:
+    ```matlab
+    run sMasterEmpiricalApplication.m
+    ```
 
-The output from the cross-validation is then used by the scripts in the `code/empiricalAnalysis/ReplicationTables/` folder to produce the final LaTeX tables (Tables 6-11) presented in the paper.
+### Running Individual Simulations
 
-To ensure it works correctly, you must **set your current working directory in MATLAB to the root folder** of this project before running the script.
+The simulation studies (Tables 1-5) can be run individually. The scripts are located in the `code/codeForSimulations` folder.
+
+* **Description**: Each subfolder (e.g., `Table1`, `Table2`) contains a main script to reproduce the corresponding table from the paper.
+* **Example Command (for Table 1)**:
+    ```matlab
+    run code/codeForSimulations/Table1/MainFile_TAB1.m
+    ```
 
 ## Sequential Testing Algorithm: `seqTest.m`
 
@@ -50,40 +60,20 @@ The function `seqTest.m` implements the sequential testing procedure for factor 
 * `boot`: A string specifying the bootstrap type. Can be `'radem'` for Rademacher (default) or `'esc'` for Mammen distribution.
 * `cut`: A logical value (`true` or `false`). If `true`, the bootstrap procedure is applied only to a truncated fraction (one-third) of the estimated factors, which significantly reduces computation time. See **Appendix B** for more details on this truncation solution.
 
-## Repository Structure
+## Repository Structure and Outputs
 
-The project's code is located in the `code/` folder, which is organized into two main subdirectories:
+The project's code is located in the `code/` folder.
 
-* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations. By running the main files in the subfolders (e.g., `Table1`, `Table2`), you can generate **Tables 1 through 5** in the paper. All script outputs are saved in the `outputFromSimulations` folder, which contains `.mat` files, Excel tables, and LaTeX code with the simulation results. The scripts use a fixed seed, ensuring that the same output files can be reproduced.
-    * **Note on Simulations**: For detailed information on the simulation setup and computational performance, please refer to **Appendix B** of the paper. It discusses methods to speed up heavy computations, such as a truncation argument (`n/2`). This option can be enabled in the `seqTest.m` function by setting the argument `cut = true;`, which is particularly useful for lengthy reproductions like Table 3.
-    * The output in LaTeX format is generated using the `latexTable` function by Eli Duenisch (2025).
-* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis and generate the corresponding **figures and tables**.
+* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations. All script outputs are saved in the `outputFromSimulations` folder, which contains `.mat` files, Excel tables, and LaTeX code with the simulation results.
+    * **Note on Simulations**: For detailed information on the simulation setup and computational performance, please refer to **Appendix B** of the paper.
+* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models (`SpaSM`, `ICA`, etc.), and `ReplicationTables`.
 
 ## Data Information
 
 * **Simulation Data**: The data for the simulation studies (Tables 1-5) is generated by the scripts located in `code/codeForSimulations/DGPs/`.
 * **Empirical Data**:
-    * The primary empirical analysis uses the **FRED-MD database** (McCracken & Ng, 2016). This is a publicly available dataset of 119 U.S. monthly macroeconomic variables spanning from January 1959 to January 2024. The data can be accessed online at: <https://www.stlouisfed.org/research/economists/mccracken/fred-databases>. As described in the paper, all series are pre-processed to ensure stationarity through differencing, logarithms, or differences of logarithms. A full list of variables and their transformations is available in **Appendix A** of the paper. The necessary data file, `current_May2024.csv`, is included in the `code/empiricalAnalysis/Data` folder.
+    * The primary empirical analysis uses the **FRED-MD database** (McCracken & Ng, 2016). This is a publicly available dataset of 119 U.S. monthly macroeconomic variables spanning from January 1959 to January 2024. The data can be accessed online at: <https://www.stlouisfed.org/research/economists/mccracken/fred-databases>. As described in the paper, all series are pre-processed to ensure stationarity. A full list of variables and their transformations is available in **Appendix A** of the paper. The necessary data file, `current_May2024.csv`, is included in the `code/empiricalAnalysis/Data` folder.
     * For the analysis including the COVID-19 pandemic, the model uses data on monthly deaths to 'de-COVID' the series, following the approach of **Ng (2021)**. The required data file, `dataCovidSerenaNg.csv`, is also included in the `code/empiricalAnalysis/Data` folder.
-
-## Mapping Code to Paper Outputs
-
-* **Tables 1-5 (Simulations)**: Generated by the `MainFile_TAB*.m` scripts within the corresponding `code/codeForSimulations/Table*` folders.
-* **Tables 6-11 (Empirical Analysis)**: Generated by the master script, `sMasterEmpiricalApplication.m`.
-* **Figures**: Generated by `empiricalAnalysis/plotsLuca/plots.m`.
-
-## How to Run the Analysis
-
-1.  **Clone the Repository**.
-2.  **Open MATLAB** and navigate to the cloned repository's main (root) folder.
-3.  **Run the Empirical Analysis**:
-    ```matlab
-    run sMasterEmpiricalApplication.m
-    ```
-4.  **Run Individual Simulations** (Optional): To run a specific simulation for a table, you can execute its main file directly. For example, for Table 1:
-    ```matlab
-    run code/codeForSimulations/Table1/MainFile_TAB1.m
-    ```
 
 ## System and Software Environment
 

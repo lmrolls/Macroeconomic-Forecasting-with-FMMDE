@@ -28,18 +28,18 @@ To run the analysis, first ensure your system meets the requirements listed in t
 
 ### Running the Full Empirical Analysis
 
-The entire empirical analysis can be executed by running the master script from the project's root directory.
+The entire empirical analysis is a two-step process:
 
-* **Master Script**: `sMasterEmpiricalApplication.m`
-* **Description**: This script manages the full analysis workflow. It runs a sequence of scripts to perform the out-of-sample forecasting for different methodologies:
-    * **Machine Learning Methods**: Runs `USA_Rolling_Rev1_XGBoosting.m`, `USA_Rolling_Rev1_SparsePCA.m`, and `USA_Rolling_Rev1_FastICA.m`.
-    * **MDDM Models**: Runs scripts for the FMMDE models, including `USA_Rolling_Rev1_MDTest.m`, which implements the sequential testing procedure defined in the paper.
-    * **LAM Yao Bathia Models**: Runs `USA_Rolling_Rev1_LAM.m` and related scripts.
-    * **Cross-Validation**: After all individual forecasts are generated, `USA_Rolling_Rev1_CVAllModels_v2.m` is run to apply the rolling time series cross-validation procedure, selecting the optimal parameters for each model. The final cross-validated results are the inputs for the scripts in the `ReplicationTables` folder, which generate Tables 6-11.
-* **Command**:
-    ```matlab
-    run sMasterEmpiricalApplication.m
-    ```
+* **Step 1: Generate Forecast Results**: Run the master script to generate the raw forecasts and perform cross-validation.
+    * **Master Script**: `sMasterEmpiricalApplication.m`
+    * **Description**: This script manages the full analysis workflow. It runs a sequence of scripts to perform the out-of-sample forecasting for all methodologies. After all individual forecasts are generated, it runs `USA_Rolling_Rev1_CVAllModels_v2.m` to apply the rolling time series cross-validation procedure. This final script saves all the cross-validated results into a single output file: `OutputForecast/USA_Rolling_Rev1_CVAllModels_v2.mat`.
+    * **Command**:
+        ```matlab
+        run sMasterEmpiricalApplication.m
+        ```
+
+* **Step 2: Generate Final Tables**: After completing Step 1, run the scripts in the `ReplicationTables` folder to produce the final LaTeX tables for the paper.
+    * **Description**: The scripts in `code/empiricalAnalysis/ReplicationTables/` (e.g., `sExportTable6.m`, `sExportTable7.m`, etc.) load the `USA_Rolling_Rev1_CVAllModels_v2.mat` file and use the results to generate the final formatted tables (Tables 6-11). **These scripts must be run after the master script has finished.**
 
 ### Running Individual Simulations
 
@@ -68,9 +68,9 @@ The function `seqTest.m` implements the sequential testing procedure for factor 
 
 The project's code is located in the `code/` folder.
 
-* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations. All script outputs are saved in the `outputFromSimulations` folder, which contains `.mat` files, Excel tables, and LaTeX code with the simulation results.
-    * **Note on Simulations**: For detailed information on the simulation setup and computational performance, please refer to **Appendix B** of the paper.
-* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models, and `ReplicationTables`. The toolboxes for specific methods are included directly in this folder: Sparse PCA (`SpaSMRev1`), Independent Component Analysis (`ICARev1`), Forecast Combination (`ForecastCombinationRev1`), and Model Confidence Set (`ModelConfidenceSetRev1`).
+* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations.
+* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models, and `ReplicationTables`. The toolboxes for specific methods are included directly in this folder: Sparse PCA (`SpaSMRev1`), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
+* `outputFromSimulations`: Contains all the results from the simulation scripts in Excel and LaTeX format. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
 
 ## Data Information
 

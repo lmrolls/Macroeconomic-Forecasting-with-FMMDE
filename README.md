@@ -56,7 +56,7 @@ The simulation studies, which correspond to Tables 1-5 in the paper, can be run 
     * A `.mat` file containing the raw MATLAB simulation results.
     * An `.xlsx` file with the results formatted as an Excel table.
     * A `.tex` file with the final, formatted LaTeX code for the table.
-* **Output Location**: The results from these simulations are saved in the corresponding subfolder within `outputFromSimulations/tables/`. For example, the outputs for `MainFile_TAB1.m` are saved in `outputFromSimulations/tables/tab1/`.
+* **Output Location**: When you run a simulation script (e.g., `MainFile_TAB1.m`), it saves the new output files directly within its own folder (e.g., `code/codeForSimulations/Table1/`). For direct comparison, the pre-computed results generated with the fixed random seed for the paper are already available in the corresponding `outputFromSimulations/tables/` subfolder.
 
 ## Sequential Testing Algorithm: `seqTest.m`
 

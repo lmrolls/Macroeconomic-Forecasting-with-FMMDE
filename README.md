@@ -31,7 +31,11 @@ To run the analysis, first ensure your system meets the requirements listed in t
 The entire empirical analysis can be executed by running the master script from the project's root directory.
 
 * **Master Script**: `sMasterEmpiricalApplication.m`
-* **Description**: This script orchestrates the full analysis workflow. It begins by calling various out-of-sample forecasting scripts located in `code/empiricalAnalysis/MainReplication/MainForecast/`. It then uses `USA_Rolling_Rev1_CVAllModels_v2.m` to apply the rolling time series cross-validation procedure, selecting the optimal parameters for each model. The final cross-validated results are the inputs for the scripts in the `ReplicationTables` folder, which generate Tables 6-11.
+* **Description**: This script orchestrates the full analysis workflow. It runs a sequence of scripts to perform the out-of-sample forecasting for different methodologies:
+    * **Machine Learning Methods**: Runs `USA_Rolling_Rev1_XGBoosting.m`, `USA_Rolling_Rev1_SparsePCA.m`, and `USA_Rolling_Rev1_FastICA.m`.
+    * **MDDM Models**: Runs scripts for the FMMDE models, including `USA_Rolling_Rev1_MDTest.m`, which implements the sequential testing procedure defined in the paper.
+    * **LAM Yao Bathia Models**: Runs `USA_Rolling_Rev1_LAM.m` and related scripts.
+    * **Cross-Validation**: After all individual forecasts are generated, `USA_Rolling_Rev1_CVAllModels_v2.m` is run to apply the rolling time series cross-validation procedure, selecting the optimal parameters for each model. The final cross-validated results are the inputs for the scripts in the `ReplicationTables` folder, which generate Tables 6-11.
 * **Command**:
     ```matlab
     run sMasterEmpiricalApplication.m

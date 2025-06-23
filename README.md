@@ -82,6 +82,7 @@ The results in the paper were obtained using the following environments.
 ### Simulation Analysis
 
 * **Hardware**:
+    * **Model**: HP ProDesk 400 G5 MT
     * **CPU**: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
     * **OS**: Microsoft Windows 10 Pro (64-bit, Version 10.0, Build 19045)
 * **Expected Runtime**: The runtime for simulations varies. For example, a simulation with n=200 variables and T=200 time periods takes approximately 100 seconds on the specified hardware. Please see Appendix B of the paper for detailed computational times under various scenarios.
@@ -100,7 +101,12 @@ The results in the paper were obtained using the following environments.
 
 ### Empirical Analysis
 
-* *Environment details to be added.*
+* **Hardware**:
+    * **Model**: MacBook Pro (MacBookPro18,2)
+    * **Chip**: Apple M1 Max (10 cores: 8 performance, 2 efficiency)
+    * **Memory**: 64 GB
+    * **OS**: macOS
+* **Software**: The software environment (MATLAB version and toolboxes) is the same as that used for the Simulation Analysis.
 
 ## References
 

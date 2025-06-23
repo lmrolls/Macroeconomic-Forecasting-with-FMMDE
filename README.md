@@ -26,7 +26,9 @@ All results in this package were obtained using the **MATLAB Parallel Computing 
 
 To run the analysis, first ensure your system meets the requirements listed in the "System and Software Environment" section. Then, clone the repository and open MATLAB.
 
-### Running the Full Empirical Analysis
+**Important**: Before running any scripts, make sure to set your MATLAB **Current Folder** to the root directory of this project (e.g., `C:\Users\utente\Desktop\FMMDE_2025`). This will ensure that all subfolders and functions are correctly added to the MATLAB path and allow the application to run smoothly without manual adjustments.
+
+### Running the Full Empirical Analysis (Tables 6-11)
 
 The entire empirical analysis is a two-step process:
 
@@ -41,15 +43,20 @@ The entire empirical analysis is a two-step process:
 * **Step 2: Generate Final Tables**: After completing Step 1, run the scripts in the `ReplicationTables` folder to produce the final LaTeX tables for the paper.
     * **Description**: The scripts in `code/empiricalAnalysis/ReplicationTables/` (e.g., `sExportTable6.m`, `sExportTable7.m`, etc.) load the `USA_Rolling_Rev1_CVAllModels_v2.mat` file and use the results to generate the final formatted tables (Tables 6-11). **These scripts must be run after the master script has finished.**
 
-### Running Individual Simulations
+### Running Individual Simulations (Tables 1-5)
 
-The simulation studies (Tables 1-5) can be run individually. The scripts are located in the `code/codeForSimulations` folder.
+The simulation studies, which correspond to Tables 1-5 in the paper, can be run individually from the `code/codeForSimulations` directory.
 
-* **Description**: Each subfolder (e.g., `Table1`, `Table2`) contains a main script to reproduce the corresponding table from the paper.
-* **Example Command (for Table 1)**:
+* **How it Works**: Each subfolder (e.g., `Table1`, `Table2`, etc.) contains a main script named `MainFile_TAB*.m`. Running this script will reproduce the specific simulation results for the corresponding table in the paper.
+* **Running a Simulation**: To run the simulation for Table 1, you can run its main script from the project's root directory:
     ```matlab
     run code/codeForSimulations/Table1/MainFile_TAB1.m
     ```
+* **Outputs**: Each simulation script generates several output files using a fixed random seed for reproducibility. These include:
+    * A `.mat` file containing the raw MATLAB simulation results.
+    * An `.xlsx` file with the results formatted as an Excel table.
+    * A `.tex` file with the final, formatted LaTeX code for the table.
+* **Output Location**: The results from these simulations are saved in the corresponding subfolder within `outputFromSimulations/tables/`. For example, the outputs for `MainFile_TAB1.m` are saved in `outputFromSimulations/tables/tab1/`.
 
 ## Sequential Testing Algorithm: `seqTest.m`
 
@@ -69,7 +76,7 @@ The function `seqTest.m` implements the sequential testing procedure for factor 
 The project's code is located in the `code/` folder.
 
 * `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations.
-* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models, and `ReplicationTables`. The toolboxes for specific methods are included directly in this folder: Sparse PCA (`SpaSMRev1`), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
+* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models, and `ReplicationTables`. The toolboxes for specific methods are included directly in this folder: Sparse PCA (`SpaSMRev1`; Sjöstrand et al., 2018), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
 * `outputFromSimulations`: Contains all the results from the simulation scripts in Excel and LaTeX format. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
 
 ## Data Information
@@ -122,8 +129,10 @@ The results in the paper were obtained using the following environments.
 * Moore, B. (2025). *PCA and ICA Package* (Version 2.2.0.0). MATLAB Central File Exchange. Retrieved June 23, 2025, from <https://www.mathworks.com/matlabcentral/fileexchange/38300-pca-and-ica-package>.
 * Ng, S. (2021). Modeling macroeconomic variations after covid-19 (Tech. Rep.). National Bureau of Economic Research.
 * Panagiotopoulos, A. (2025). *Forecasting Combination* (Version 1.1.1). MATLAB Central File Exchange. Retrieved June 23, 2025, from <https://www.mathworks.com/matlabcentral/fileexchange/89629-forecasting-combination>.
-* Stock, J. H., & Watson, M. W. (2002a). Forecasting using principal components from a large number of predictors. *Journal of the American Statistical Association*, 97(460), 1167–1179.
+* Sjöstrand, K., Clemmensen, L. H., Larsen, R., Einarsson, G., & Ersbøll, B. Κ. (2018). Spasm: A matlab toolbox for sparse statistical modeling. *Journal of Statistical Software*, 84 (10).
+* Stock, J. H., & Watson, M. W. (2002a). Forecasting using principal components from a large number of predictors. *Journal of the American statistical association*, 97(460), 1167–1179.
 * Stock, J. H., & Watson, M. W. (2002b). Macroeconomic forecasting using diffusion indexes. *Journal of Business & Economic Statistics*, 20(2), 147–162.
+* Zou, H., Hastie, T., & Tibshirani, R. (2006). Sparse principal component analysis. *Journal of computational and graphical statistics*, 15(2), 265-286.
 
 ## License
 

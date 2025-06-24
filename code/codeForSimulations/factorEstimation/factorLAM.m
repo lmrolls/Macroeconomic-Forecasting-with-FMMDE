@@ -34,36 +34,52 @@
 %   - The number of factors is estimated using the eigenvalue ratio method but
 %     capped at the input r.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [fhat, Ahat, chat, ss, icstar] = factorLAM(Y, k0, r)
-
+function[fhat,Ahat,chat,ss,icstar] = factorLAM(Y,k0)
 [n, p] = size(Y);
-S = zeros(p, p);
-
-for k = 1:k0
-    mat = (1/(n-k)) * (Y((1+k):n, :)' * Y(1:(n-k), :));
-    S = S + mat * mat'; % Cumulative covariance matrix
+L = zeros(p,p);                   
+                                  
+for k=1:k0                                    % k0:lags cumul. MDDM(pag 219)  
+    sigma = covMat(Y,n,p,k);
+    L   = L + sigma*sigma';                            %cumulative MDDM(k0)
 end
-
-[eVec, eVal] = eig(S);
+[eVec,eVal] = eig(L);                      %eigendec. cumulative MDDM(k0)
 eVal = diag(eVal);
-[eVal, idx] = sort(eVal, 'descend'); % Sort eigenvalues in descending order
-eVec = eVec(:, idx); % Reorder eigenvectors accordingly
 
-R = floor((p/3));
-lambda = zeros(R, 1);
-for i = 1:R
-    lambda(i) = eVal(i+1) / eVal(i); % Ratio for smallest eigenvalues
+if eVal(1) <= eVal(2) && eVal(2) <= eVal(3) && eVal(end - 1) <= eVal(end) 
+
+    eVal = sort(eVal,"descend");
+
+    eVec2 = eVec;
+    for j = 1:p
+
+        eVec(:,j) = eVec2(:,p - (j-1));
+
+    end
+end
+    
+R = floor((p/2));
+
+
+lambda = zeros(R,1);
+for i=1:R
+    lambda(i) = eVal(i+1)/eVal(i);         %lambda= ratios subsequent eigenVals
+end
+[~,argMin] =  min(lambda(1:R));                 % argmin of ratios 
+    icstar = argMin;
+
+Ahat = eVec(:,(1:icstar));   
+% Components
+    fhat=Y*Ahat;
+    
+    chat=fhat*Ahat';
+    ss = eVal;
 end
 
-[~, argMin] = min(lambda(1:R)); % Minimize ratio
-icstar = argMin;
-
-Ahat = eVec(:, 1:r);
-
-% Components
-fhat = Y * Ahat;
-chat = fhat * Ahat';
-ss = eVal;
-
+function sigma = covMat(Y,n,p,k)
+Y = Y';
+sum=zeros(p,p);
+for t = 1:(n-k)
+    sum = sum + Y(:,t+k)*Y(:,t)' ;
+end
+sigma = (1/(n-k))*sum ;
 end

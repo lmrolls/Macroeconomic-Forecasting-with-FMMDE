@@ -24,15 +24,15 @@ All results in this package were obtained using the **MATLAB Parallel Computing 
 
 ## Getting Started: How to Run the Analysis
 
-To run the analysis, first ensure your system meets the requirements listed in the "System and Software Environment" section. Then, clone the repository and open MATLAB.
-
-**Important**: Before running any scripts, make sure to set your MATLAB **Current Folder** to the root directory of this project (e.g., `C:\Users\utente\Desktop\FMMDE_2025`). This will ensure that all subfolders and functions are correctly added to the MATLAB path and allow the application to run smoothly without manual adjustments.
+To run the analysis, first ensure your system meets the requirements listed in the "System and Software Environment" section. Then, clone the repository (the folder will likely be named `Macroeconomic-Forecasting-with-FMMDE-main`) and open MATLAB. The procedures for reproducing the empirical and simulation results are different and are detailed below.
 
 ### Running the Full Empirical Analysis (Tables 6-11)
 
-The entire empirical analysis is a two-step process:
+The entire empirical analysis is a two-step process that must be executed from the project's root directory.
 
-* **Step 1: Generate Forecast Results**: Run the master script to generate the raw forecasts and perform cross-validation.
+* **Step 1: Set Working Directory.** Before you begin, set your MATLAB **Current Folder** to the project's root directory (e.g., `.../Macroeconomic-Forecasting-with-FMMDE-main`).
+
+* **Step 2: Generate Forecast Results**. From the root directory, run the master script:
     * **Master Script**: `sMasterEmpiricalApplication.m`
     * **Description**: This script manages the full analysis workflow. It runs a sequence of scripts to perform the out-of-sample forecasting for all methodologies. After all individual forecasts are generated, it runs `USA_Rolling_Rev1_CVAllModels_v2.m` to apply the rolling time series cross-validation procedure. This final script saves all the cross-validated results into a single output file: `OutputForecast/USA_Rolling_Rev1_CVAllModels_v2.mat`.
     * **Command**:
@@ -40,23 +40,28 @@ The entire empirical analysis is a two-step process:
         run sMasterEmpiricalApplication.m
         ```
 
-* **Step 2: Generate Final Tables**: After completing Step 1, run the scripts in the `ReplicationTables` folder to produce the final LaTeX tables for the paper.
-    * **Description**: The scripts in `code/empiricalAnalysis/ReplicationTables/` (e.g., `sExportTable6.m`, `sExportTable7.m`, etc.) load the `USA_Rolling_Rev1_CVAllModels_v2.mat` file and use the results to generate the final formatted tables (Tables 6-11). **These scripts must be run after the master script has finished.**
+* **Step 3: Generate Final Tables**. After completing Step 2, run the scripts in the `ReplicationTables` folder to produce the final LaTeX tables for the paper. These scripts load the `.mat` file generated in the previous step.
 
 ### Running Individual Simulations (Tables 1-5)
 
-The simulation studies, which correspond to Tables 1-5 in the paper, can be run individually from the `code/codeForSimulations` directory.
+The simulation studies, which correspond to Tables 1-5 in the paper, are self-contained and must be run from within their specific subfolders.
 
-* **How it Works**: Each subfolder (e.g., `Table1`, `Table2`, etc.) contains a main script named `MainFile_TAB*.m`. Running this script will reproduce the specific simulation results for the corresponding table in the paper.
-* **Running a Simulation**: To run the simulation for Table 1, you can run its main script from the project's root directory:
-    ```matlab
-    run code/codeForSimulations/Table1/MainFile_TAB1.m
+* **How it Works**: Each subfolder within `code/codeForSimulations/` (e.g., `Table1`, `Table2`, etc.) contains a main script named `MainFile_TAB*.m` to reproduce the corresponding table in the paper.
+
+* **Step 1: Set Working Directory**. To run a simulation, you must first navigate your MATLAB **Current Folder** into that specific table's directory. For example, to reproduce Table 1:
     ```
-* **Outputs**: Each simulation script generates several output files using a fixed random seed for reproducibility. These include:
-    * A `.mat` file containing the raw MATLAB simulation results.
-    * An `.xlsx` file with the results formatted as an Excel table.
-    * A `.tex` file with the final, formatted LaTeX code for the table.
-* **Output Location**: When you run a simulation script (e.g., `MainFile_TAB1.m`), it saves the new output files directly within its own folder (e.g., `code/codeForSimulations/Table1/`). For direct comparison, the pre-computed results generated with the fixed random seed for the paper are already available in the corresponding `outputFromSimulations/tables/` subfolder.
+    cd code/codeForSimulations/Table1/
+    ```
+
+* **Step 2: Run the Simulation Script**. From within the table's directory, run the main script:
+    ```matlab
+    run MainFile_TAB1.m
+    ```
+    This script will perform the Monte Carlo simulation using a fixed random seed.
+
+* **Understanding the Outputs**:
+    * **New Results**: The script will save three new output files directly into the folder you are in (e.g., `.../Table1/`). These are typically a `.mat` file with the raw results, an `.xlsx` file, and a `.tex` file with the formatted LaTeX table.
+    * **Comparison**: For direct comparison, the pre-computed results provided by the authors are available in the corresponding `outputFromSimulations/tables/` subfolder (e.g., `outputFromSimulations/tables/tab1/`).
 
 ## Sequential Testing Algorithm: `seqTest.m`
 

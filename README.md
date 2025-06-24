@@ -28,19 +28,20 @@ To run the analysis, first ensure your system meets the requirements listed in t
 
 ### Running the Full Empirical Analysis (Tables 6-11)
 
-The entire empirical analysis is a two-step process that must be executed from the project's root directory.
+The entire empirical analysis is a multi-step process that must be executed from the project's root directory.
 
-* **Step 1: Set Working Directory.** Before you begin, set your MATLAB **Current Folder** to the project's root directory (e.g., `.../Macroeconomic-Forecasting-with-FMMDE-main`).
+* **Step 1: Set Working Directory.** Before you begin, set your MATLAB **Current Folder** to the project's root directory (e.g., `.../Macroeconomic-Forecasting-with-FMMDE-main`). This is a critical step.
 
 * **Step 2: Generate Forecast Results**. From the root directory, run the master script:
     * **Master Script**: `sMasterEmpiricalApplication.m`
-    * **Description**: This script manages the full analysis workflow. It runs a sequence of scripts to perform the out-of-sample forecasting for all methodologies. After all individual forecasts are generated, it runs `USA_Rolling_Rev1_CVAllModels_v2.m` to apply the rolling time series cross-validation procedure. This final script saves all the cross-validated results into a single output file: `OutputForecast/USA_Rolling_Rev1_CVAllModels_v2.mat`.
+    * **Description**: This script manages the full analysis workflow. It runs a sequence of out-of-sample forecasting scripts for each methodology (e.g., `USA_Rolling_Rev1_MDTest.m`). Each of these scripts produces its own `.mat` output file, which is saved in the `OutputForecast` folder.
+    * After the individual forecasts are generated, the master script runs `USA_Rolling_Rev1_CVAllModels_v2.m`. This final script loads all the previously generated `.mat` files, applies the rolling time series cross-validation, and saves the final, consolidated results into a single file: `OutputForecast/USA_Rolling_Rev1_CVAllModels_v2.mat`.
     * **Command**:
         ```matlab
         run sMasterEmpiricalApplication.m
         ```
 
-* **Step 3: Generate Final Tables**. After completing Step 2, run the scripts in the `ReplicationTables` folder to produce the final LaTeX tables for the paper. These scripts load the `.mat` file generated in the previous step.
+* **Step 3: Generate Final Tables**. After completing Step 2, run the scripts in the `code/empiricalAnalysis/ReplicationTables/` folder (e.g., `sExportTable6.m`). These scripts load the crucial `USA_Rolling_Rev1_CVAllModels_v2.mat` file to produce the final LaTeX tables for the paper (Tables 6-11).
 
 ### Running Individual Simulations (Tables 1-5)
 
@@ -49,7 +50,7 @@ The simulation studies, which correspond to Tables 1-5 in the paper, are self-co
 * **How it Works**: Each subfolder within `code/codeForSimulations/` (e.g., `Table1`, `Table2`, etc.) contains a main script named `MainFile_TAB*.m` to reproduce the corresponding table in the paper.
 
 * **Step 1: Set Working Directory**. To run a simulation, you must first navigate your MATLAB **Current Folder** into that specific table's directory. For example, to reproduce Table 1:
-    ```
+    ```matlab
     cd code/codeForSimulations/Table1/
     ```
 
@@ -60,8 +61,8 @@ The simulation studies, which correspond to Tables 1-5 in the paper, are self-co
     This script will perform the Monte Carlo simulation using a fixed random seed.
 
 * **Understanding the Outputs**:
-    * **New Results**: The script will save three new output files directly into the folder you are in (e.g., `.../Table1/`). These are typically a `.mat` file with the raw results, an `.xlsx` file, and a `.tex` file with the formatted LaTeX table.
-    * **Comparison**: For direct comparison, the pre-computed results provided by the authors are available in the corresponding `outputFromSimulations/tables/` subfolder (e.g., `outputFromSimulations/tables/tab1/`).
+    * **New Results**: The script saves three new output files directly into the folder you are in (e.g., `.../Table1/`). These are typically a `.mat` file with the raw results, an `.xlsx` file, and a `.tex` file with the formatted LaTeX table.
+    * **Comparison**: For direct comparison, the pre-computed results provided by the authors (generated using the same fixed seed) are available in the corresponding `outputFromSimulations/tables/` subfolder (e.g., `outputFromSimulations/tables/tab1/`).
 
 ## Sequential Testing Algorithm: `seqTest.m`
 
@@ -82,7 +83,8 @@ The project's code is located in the `code/` folder.
 
 * `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations.
 * `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models, and `ReplicationTables`. The toolboxes for specific methods are included directly in this folder: Sparse PCA (`SpaSMRev1`; Sjöstrand et al., 2018), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
-* `outputFromSimulations`: Contains all the results from the simulation scripts in Excel and LaTeX format. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
+* `OutputForecast`: This folder is initially empty. When the master script `sMasterEmpiricalApplication.m` is run, this folder will be populated with the `.mat` output files from each individual forecasting model, culminating in the final `USA_Rolling_Rev1_CVAllModels_v2.mat` file. This final file is required to generate the empirical tables (6-11).
+* `outputFromSimulations`: Contains the pre-computed results from the simulation scripts in Excel and LaTeX format, allowing for direct comparison with newly generated results. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
 
 ## Data Information
 

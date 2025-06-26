@@ -229,5 +229,9 @@ end
 clear x
 
 
-file=(['USA_Rolling_Rev1_LAM_v2']);
-eval([ 'save ',file, ' *'])
+%%=========== SAVING OUTPUT ========================
+this_script_path = pwd;
+output_folder    = fullfile(this_script_path, 'OutputForecast');
+output_folder    = char(java.io.File(output_folder).getCanonicalPath());  % normalizza
+file_name        = 'USA_Rolling_Rev1_LAM_v2.mat';
+save(fullfile(output_folder, file_name), 'predLAM', 'predSWgt', 'predAR', 'true', 'nfacLAM');

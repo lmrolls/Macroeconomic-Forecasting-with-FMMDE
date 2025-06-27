@@ -213,5 +213,12 @@ end
 clear x
 
 
-file=(['USA_Rolling_Rev1_SparsePCA_v2']);
-eval([ 'save ',file, ' -v7.3'])
+% file=(['USA_Rolling_Rev1_SparsePCA_v2']);
+% eval([ 'save ',file, ' -v7.3'])
+
+%%=========== SAVING OUTPUT ========================
+this_script_path = pwd;
+output_folder    = fullfile(this_script_path, 'OutputForecast');
+output_folder    = char(java.io.File(output_folder).getCanonicalPath());  % normalize path
+file_name        = 'USA_Rolling_Rev1_SparsePCA_v2.mat';
+save(fullfile(output_folder, file_name), 'predSparsegt','vSparseLoad', '-v7.3');

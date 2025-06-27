@@ -216,5 +216,12 @@ for j = start_sample:end_sample-HH(end)
 end
 
 %% Save Results
-file = 'USA_Rolling_Rev1_SuperTest_v2';
-save(file)
+file_name = 'USA_Rolling_Rev1_SuperTest_v2';
+%save(file)
+
+%%=========== SAVING OUTPUT ========================
+this_script_path = pwd;
+output_folder    = fullfile(this_script_path, 'OutputForecast');
+output_folder    = char(java.io.File(output_folder).getCanonicalPath());  % normalizza
+%file_name        = 'USA_Rolling_Rev1_MDTest_v2.mat';
+save(fullfile(output_folder, file_name));

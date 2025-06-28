@@ -1,10 +1,8 @@
 # Macroeconomic Forecasting with FMMDE
 
-Reproducibility Package for "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors"
+**Reproducibility Package for "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors"**
 
-## Package Information
-
-* **Date Assembled**: April 23, 2025
+* **Date Assembled**: June 28, 2025
 * **Author(s)**: Luca Mattia Rolla, Alessandro Giovannelli
 * **Contact**: Luca Mattia Rolla (lmrolla92@gmail.com, University of Rome “Tor Vergata”, Italy), Alessandro Giovannelli (alessandro.giovannelli@univaq.it, University of L'Aquila, Italy)
 * **Repository URL**: <https://github.com/lmrolls/Macroeconomic-Forecasting-with-FMMDE>
@@ -13,85 +11,75 @@ Reproducibility Package for "Macroeconomic Forecasting using Factor Models with 
 
 This repository contains the code and data to reproduce the results for the paper "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors."
 
-The paper analyzes the forecasting performance of a new class of factor models with martingale difference errors (FMMDE; Lee and Shao, 2018). The model's properties are evaluated against a wide range of alternatives, including other factor models (Lam and Yao, 2012; Stock and Watson, 2002a, 2002b) and machine learning techniques such as sparse PCA, ICA, and gradient boosting.
-
-The paper's main contributions are twofold:
+The paper analyzes the forecasting performance of a new class of factor models with martingale difference errors (FMMDE). The model's properties are evaluated against a wide range of alternatives, including other factor models and machine learning techniques. The paper's main contributions are:
 
 1.  It introduces a **novel sequential testing methodology** for selecting the number of factors in FMMDE models and demonstrates its effectiveness through simulations.
 2.  It conducts an extensive empirical analysis comparing FMMDE with alternative methods to improve predictions of U.S. macroeconomic aggregates, using the comprehensive FRED-MD dataset.
 
-All results in this package were obtained using the **MATLAB Parallel Computing Toolbox** to speed up computations. The scripts exactly reproduce the outputs available in this repository (Excel tables, LaTeX code, `.mat` files) under a fixed seed. **Important Note on Reproducibility**: The scripts in this package use a fixed random seed to ensure the exact reproducibility of the provided outputs. Consequently, these results may not perfectly match those in the final published paper, which were generated without setting a specific seed.
+**Important Note on Reproducibility**: The scripts in this package use a fixed random seed to ensure the exact reproducibility of the provided outputs. Consequently, these results may not perfectly match those in the final published paper, which were generated without setting a specific seed.
 
-## Getting Started: How to Run the Analysis
+## Repository Structure
 
-To run the analysis, first ensure your system meets the requirements listed in the "System and Software Environment" section. Then, clone the repository (the folder will likely be named `Macroeconomic-Forecasting-with-FMMDE-main`) and open MATLAB. The procedures for reproducing the empirical and simulation results are different and are detailed below.
+The project is organized into two main subfolders:
 
-### Running the Full Empirical Analysis (Tables 6-11)
+* `codeForSimulations`: Contains all scripts and functions to reproduce the Monte Carlo simulations presented in Tables 1-5 of the paper. The internal structure of this folder has not changed.
+* `codeForForecast`: Contains all scripts and functions required to perform the full empirical analysis and reproduce Tables 6-11. This folder contains all forecasting models, data, and table generation scripts.
 
-The entire empirical analysis is a multi-step process that must be executed from the project's root directory.
+## How to Reproduce the Results
 
-* **Step 1: Set Working Directory.** Before you begin, set your MATLAB **Current Folder** to the project's root directory (e.g., `.../Macroeconomic-Forecasting-with-FMMDE-main`). This is a critical step.
+### Part 1: Reproducing the Empirical Analysis (Tables 6-11)
 
-* **Step 2: Generate Forecast Results**. From the root directory, run the master script:
-    * **Master Script**: `sMasterEmpiricalApplication.m`
-    * **Description**: This script manages the full analysis workflow. It runs a sequence of out-of-sample forecasting scripts for each methodology (e.g., `USA_Rolling_Rev1_MDTest.m`). Each of these scripts produces its own `.mat` output file, which is saved in the `OutputForecast` folder.
-    * After the individual forecasts are generated, the master script runs `USA_Rolling_Rev1_CVAllModels_v2.m`. This final script loads all the previously generated `.mat` files, applies the rolling time series cross-validation, and saves the final, consolidated results into a single file: `OutputForecast/USA_Rolling_Rev1_CVAllModels_v2.mat`.
-    * **Command**:
-        ```matlab
-        run sMasterEmpiricalApplication.m
-        ```
+The empirical analysis is a multi-stage process. The main pipeline must be run first to generate the necessary forecast data, after which the final tables can be created.
 
-* **Step 3: Generate Final Tables**. After completing Step 2, run the scripts in the `code/empiricalAnalysis/ReplicationTables/` folder (e.g., `sExportTable6.m`). These scripts load the crucial `USA_Rolling_Rev1_CVAllModels_v2.mat` file to produce the final LaTeX tables for the paper (Tables 6-11).
+#### **Stage A: Running the Main Forecast Pipeline**
 
-### Running Individual Simulations (Tables 1-5)
+This stage runs the entire out-of-sample forecasting exercise for all models and generates a single, consolidated data file containing all results.
 
-The simulation studies, which correspond to Tables 1-5 in the paper, are self-contained and must be run from within their specific subfolders.
+1.  **Set Working Directory (CRITICAL STEP):** Before you begin, you must set your MATLAB **Current Folder** to the `codeForForecast` directory. This is essential for the master script to correctly locate all necessary functions and toolboxes.
 
-* **How it Works**: Each subfolder within `code/codeForSimulations/` (e.g., `Table1`, `Table2`, etc.) contains a main script named `MainFile_TAB*.m` to reproduce the corresponding table in the paper.
-
-* **Step 1: Set Working Directory**. To run a simulation, you must first navigate your MATLAB **Current Folder** into that specific table's directory. For example, to reproduce Table 1:
+2.  **Run the Master Script:** From within the `codeForForecast` directory, execute the master script:
     ```matlab
-    cd code/codeForSimulations/Table1/
+    run sMasterEmpiricalApplication.m
     ```
 
-* **Step 2: Run the Simulation Script**. From within the table's directory, run the main script:
+3.  **What the Script Does:**
+    * The master script sequentially executes all the individual out-of-sample forecasting scripts (e.g., `USA_Rolling_Rev1_TestMDDM.m`, `USA_Rolling_Rev1_SparsePCA.m`).
+    * Each of these scripts saves a `.mat` file containing its specific forecast results into a new folder named `OutputForecast`.
+    * After all individual forecasts are generated, the master script runs `USA_Rolling_Rev1_CVAllModels_v2.m`. This final script loads all the previously generated `.mat` files, applies a rolling time-series cross-validation to select the optimal model parameters, and saves the final, consolidated results into a single file: `OutputForecast/USA_Rolling_Rev1_CVAllModels_v2.mat`.
+
+    > **WARNING: Computational Time**
+    > The script for the Gradient Boosting model (`USA_Rolling_Rev1_XGBoosting.m`) is computationally intensive and can take several days to complete on standard hardware. For convenience, its output file is already included in the repository, so you can comment out the line `run('USA_Rolling_Rev1_XGBoosting.m');` in the master script if you wish to skip this step.
+
+#### **Stage B: Generating the Final Tables**
+
+This stage can only be run after Stage A is complete and the `USA_Rolling_Rev1_CVAllModels_v2.mat` file has been generated.
+
+1.  **Set Working Directory:** Set your MATLAB **Current Folder** to the `ReplicationTables` folder, which is located inside `codeForForecast`.
+
+2.  **Run a Table Script:** From within the `ReplicationTables` directory, run any of the `sExportTable*.m` scripts to generate the corresponding table from the paper. For example:
+    ```matlab
+    run sExportTable6.m
+    ```
+    This will print the LaTeX code for Table 6 to the MATLAB command window.
+
+3.  **How it Works:** The table-generation scripts are self-contained. They use relative paths (`addpath('..\OutputForecast')` and `addpath('..\ModelConfidenceSetRev1')`) to load the consolidated results file from the `OutputForecast` folder and the necessary functions for the Model Confidence Set tests.
+
+### Part 2: Reproducing the Simulation Studies (Tables 1-5)
+
+The simulation studies are self-contained and must be run from within their specific subfolders. The procedure for this part has not changed.
+
+1.  **Set Working Directory:** To run a simulation, you must first navigate your MATLAB **Current Folder** into that specific table's directory. For example, to reproduce Table 1:
+    ```matlab
+    cd codeForSimulations/Table1/
+    ```
+
+2.  **Run the Simulation Script:** From within the table's directory, run the main script:
     ```matlab
     run MainFile_TAB1.m
     ```
-    This script will perform the Monte Carlo simulation using a fixed random seed.
+    This script will perform the Monte Carlo simulation and save the results (a `.mat` file, an `.xlsx` file, and a `.tex` file) in the current directory (`.../Table1/`).
 
-* **Understanding the Outputs**:
-    * **New Results**: The script saves three new output files directly into the folder you are in (e.g., `.../Table1/`). These are typically a `.mat` file with the raw results, an `.xlsx` file, and a `.tex` file with the formatted LaTeX table.
-    * **Comparison**: For direct comparison, the pre-computed results provided by the authors (generated using the same fixed seed) are available in the corresponding `outputFromSimulations/tables/` subfolder (e.g., `outputFromSimulations/tables/tab1/`).
-
-## Sequential Testing Algorithm: `seqTest.m`
-
-The function `seqTest.m` implements the sequential testing procedure for factor selection in FMMDE models, as described in Section 3 of the paper. This function is a core component of the simulation studies and is used to determine the number of latent factors in the model.
-
-### Function Arguments
-
-* `Y`: A T x p matrix of the time series data (T observations, p variables).
-* `B`: The number of bootstrap replicates used to approximate p-values.
-* `crit`: The critical p-value threshold for the test (e.g., 0.05).
-* `k0`: The number of lags used for computing the cumulative Martingale Difference Divergence Matrix (MDDM).
-* `boot`: A string specifying the bootstrap type. Can be `'radem'` for Rademacher (default) or `'esc'` for Mammen distribution.
-* `cut`: A logical value (`true` or `false`). If `true`, the bootstrap procedure is applied only to a truncated fraction (one-third) of the estimated factors, which significantly reduces computation time. See **Appendix B** for more details on this truncation solution.
-
-## Repository Structure and Outputs
-
-The project's code is located in the `code/` folder.
-
-* `code/codeForSimulations`: Contains all scripts for the Monte Carlo simulations.
-* `code/empiricalAnalysis`: Includes the scripts and functions required to perform the empirical analysis. This folder contains subdirectories for the `MainReplication` (including `MainForecast`), competing models, and `ReplicationTables`. The toolboxes for specific methods are included directly in this folder: Sparse PCA (`SpaSMRev1`; Sjöstrand et al., 2018), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
-* `OutputForecast`: This folder is initially empty. When the master script `sMasterEmpiricalApplication.m` is run, this folder will be populated with the `.mat` output files from each individual forecasting model, culminating in the final `USA_Rolling_Rev1_CVAllModels_v2.mat` file. This final file is required to generate the empirical tables (6-11).
-* `outputFromSimulations`: Contains the pre-computed results from the simulation scripts in Excel and LaTeX format, allowing for direct comparison with newly generated results. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
-
-## Data Information
-
-* **Simulation Data**: The data for the simulation studies (Tables 1-5) is generated by the scripts located in `code/codeForSimulations/DGPs/`.
-* **Empirical Data**:
-    * The primary empirical analysis uses the **FRED-MD database** (McCracken & Ng, 2016). This is a publicly available dataset of 119 U.S. monthly macroeconomic variables spanning from January 1959 to January 2024. The data can be accessed online at: <https://www.stlouisfed.org/research/economists/mccracken/fred-databases>. As described in the paper, all series are pre-processed to ensure stationarity. A full list of variables and their transformations is available in **Appendix A** of the paper. The necessary data file, `current_May2024.csv`, is included in the `code/empiricalAnalysis/Data` folder.
-    * For the analysis including the COVID-19 pandemic, the model uses data on monthly deaths to 'de-COVID' the series, following the approach of **Ng (2021)**. The required data file, `dataCovidSerenaNg.csv`, is also included in the `code/empiricalAnalysis/Data` folder. This conditional mean cleaning is performed by the `fMeanClean.m` function, located in the `code/empiricalAnalysis/MainReplication/Utils` folder.
+3.  **Comparison**: For direct comparison, the pre-computed results are available in the corresponding `outputFromSimulations/tables/` subfolder (e.g., `outputFromSimulations/tables/tab1/`).
 
 ## System and Software Environment
 
@@ -140,7 +128,3 @@ The results in the paper were obtained using the following environments.
 * Stock, J. H., & Watson, M. W. (2002a). Forecasting using principal components from a large number of predictors. *Journal of the American statistical association*, 97(460), 1167–1179.
 * Stock, J. H., & Watson, M. W. (2002b). Macroeconomic forecasting using diffusion indexes. *Journal of Business & Economic Statistics*, 20(2), 147–162.
 * Zou, H., Hastie, T., & Tibshirani, R. (2006). Sparse principal component analysis. *Journal of computational and graphical statistics*, 15(2), 265-286.
-
-## License
-
-This package is licensed under the MIT License (see `LICENSE` file).

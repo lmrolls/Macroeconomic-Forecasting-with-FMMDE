@@ -22,10 +22,13 @@ The paper analyzes the forecasting performance of a new class of factor models w
 
 The project is organized into two main subfolders:
 
-* `codeForSimulations`: Contains all scripts to reproduce the Monte Carlo simulations (Tables 1-5).
-* `codeForForecast`: Contains all scripts and functions for the empirical analysis (Tables 6-11). This folder includes subdirectories for `Data`, `factorEstimation`, `ForecastCombinationRev1`, `ICARev1`, `MainReplication`, `ModelConfidenceSetRev1`, `ReplicationTables`, and `SpaSMRev1`. The toolboxes for specific methods are included directly: Sparse PCA (`SpaSMRev1`; Sjöstrand et al., 2018), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
-* `OutputForecast`: This folder is initially empty. When the master script `sMasterEmpiricalApplication.m` is run, this folder will be populated with the `.mat` output files from each individual forecasting model, culminating in the final `USA_Rolling_Rev1_CVAllModels_v2.mat` file.
-* `outputFromSimulations`: Contains the pre-computed results from the simulation scripts in Excel and LaTeX format, allowing for direct comparison with newly generated results. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
+* **`codeForSimulations`**: Contains all scripts to reproduce the Monte Carlo simulations (Tables 1-5).
+    * It includes a subfolder named **`outputFromSimulations`**, which contains the pre-computed results in Excel and LaTeX format, allowing for direct comparison with newly generated results. The LaTeX files are generated using the `latexTable` function (Duenisch, 2025).
+* **`codeForForecast`**: Contains all scripts and functions for the empirical analysis (Tables 6-11).
+    * It includes a subfolder named **`OutputForecast`**, which is initially empty. When the master script `sMasterEmpiricalApplication.m` is run, this folder is populated with the `.mat` output files from each forecasting model, culminating in the final `USA_Rolling_Rev1_CVAllModels_v2.mat` file.
+    * This folder also includes other necessary subdirectories: `Data`, `ForecastCombinationRev1`, `ICARev1`, `MainReplication`, `ModelConfidenceSetRev1`, `ReplicationTables`, and `SpaSMRev1`.
+* **Shared Functions**: Both `codeForSimulations` and `codeForForecast` contain a subfolder named **`factorEstimation`**. This folder is identical in both locations and contains the same set of functions for factor estimation.
+* **Third-Party Toolboxes**: The `codeForForecast` folder also includes the toolboxes for specific methods used in the paper: Sparse PCA (`SpaSMRev1`; Sjöstrand et al., 2018), Independent Component Analysis (`ICARev1`; Moore, 2025), Forecast Combination (`ForecastCombinationRev1`; Panagiotopoulos, 2025), and Model Confidence Set (`ModelConfidenceSetRev1`; Hansen, Lunde, and Nason, 2011).
 
 ## How to Reproduce the Results
 

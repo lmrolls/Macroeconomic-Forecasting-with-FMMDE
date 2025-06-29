@@ -2,7 +2,7 @@
 
 **Reproducibility Package for "Macroeconomic Forecasting using Factor Models with Martingale Difference Errors"**
 
-* **Date Assembled**: June 28, 2025
+* **Date Assembled**: June 29, 2025
 * **Author(s)**: Luca Mattia Rolla, Alessandro Giovannelli
 * **Contact**: Luca Mattia Rolla (lmrolla92@gmail.com, University of Rome “Tor Vergata”, Italy), Alessandro Giovannelli (alessandro.giovannelli@univaq.it, University of L'Aquila, Italy)
 * **Repository URL**: <https://github.com/lmrolls/Macroeconomic-Forecasting-with-FMMDE>
@@ -86,6 +86,8 @@ The simulation studies are self-contained and must be run from within their spec
 
 3.  **Comparison**: For direct comparison, the pre-computed results are available in the corresponding `outputFromSimulations/tables/` subfolder (e.g., `outputFromSimulations/tables/tab1/`).
 
+    > **Note on Table 3 and Computation Time:** The simulation for Table 3 can be computationally lengthy. As a time-saving alternative, you can use the `cut=true` option in the `seqTest.m` function. We provide pre-computed results generated with this setting, which are available in the specific subfolder: **`outputFromSimulations/tables/tab3/cutTrue/`**. These results were also generated with a fixed seed to ensure reproducibility and allow you to inspect the outcomes without running the most time-intensive simulation.
+
 ## Sequential Testing Algorithm: `seqTest.m`
 
 The function `seqTest.m` implements the sequential testing procedure for factor selection in FMMDE models, as described in Section 3 of the paper. This function is a core component of the simulation studies and is used to determine the number of latent factors in the model.
@@ -97,7 +99,7 @@ The function `seqTest.m` implements the sequential testing procedure for factor 
 * `crit`: The critical p-value threshold for the test (e.g., 0.05).
 * `k0`: The number of lags used for computing the cumulative Martingale Difference Divergence Matrix (MDDM).
 * `boot`: A string specifying the bootstrap type. Can be `'radem'` for Rademacher (default) or `'esc'` for Mammen distribution.
-* `cut`: A logical value (`true` or `false`). If `true`, the bootstrap procedure is applied only to a truncated fraction (one-third) of the estimated factors, which significantly reduces computation time. See **Appendix B** for more details on this truncation solution.
+* `cut`: A logical value (`true` or `false`). If `true`, the bootstrap procedure is applied only to a truncated fraction (one-third) of the estimated factors. This is a crucial time-saving feature for computationally intensive simulations. See **Appendix B** of the paper for more details on this truncation solution.
 
 ## Data Information
 

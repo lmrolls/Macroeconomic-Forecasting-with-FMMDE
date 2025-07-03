@@ -131,6 +131,7 @@ The results in the paper were obtained using the following environments.
     * Optimization Toolbox Version 9.4 (R2022b)
     * Parallel Computing Toolbox Version 7.7 (R2022b)
     * Statistics and Machine Learning Toolbox Version 12.4 (R2022b)
+    * Symbolic Math Toolbox Version 9.2 (R2022b)
 
 ### Empirical Analysis
 

@@ -88,11 +88,13 @@ The simulation studies are self-contained and must be run from within their spec
 
     > **Note on Table 3 and Computation Time:** The simulation for Table 3 can be computationally lengthy. As a time-saving alternative, you can use the `cut=true` option in the `seqTest.m` function. We provide pre-computed results generated with this setting, which are available in the specific subfolder: **`outputFromSimulations/tables/tab3/cutTrue/`**. These results were also generated with a fixed seed to ensure reproducibility and allow you to inspect the outcomes without running the most time-intensive simulation.
 
-## Sequential Testing Algorithm: `seqTest.m`
+## Technical Notes
+
+### Sequential Testing Algorithm: `seqTest.m`
 
 The function `seqTest.m` implements the sequential testing procedure for factor selection in FMMDE models, as described in Section 3 of the paper. This function is a core component of the simulation studies and is used to determine the number of latent factors in the model.
 
-### Function Arguments
+#### Function Arguments
 
 * `Y`: A T x p matrix of the time series data (T observations, p variables).
 * `B`: The number of bootstrap replicates used to approximate p-values.
@@ -100,6 +102,10 @@ The function `seqTest.m` implements the sequential testing procedure for factor 
 * `k0`: The number of lags used for computing the cumulative Martingale Difference Divergence Matrix (MDDM).
 * `boot`: A string specifying the bootstrap type. Can be `'radem'` for Rademacher (default) or `'esc'` for Mammen distribution.
 * `cut`: A logical value (`true` or `false`). If `true`, the bootstrap procedure is applied only to a truncated fraction (one-third) of the estimated factors. This is a crucial time-saving feature for computationally intensive simulations. See **Appendix B** of the paper for more details on this truncation solution.
+
+### Saving Large Data Files: The `-v7.3` Flag
+
+In the forecasting scripts for Sparse PCA and XGBoosting (`USA_Rolling_Rev1_SparsePCA.m` and `USA_Rolling_Rev1_XGBoosting.m`), the `save` command includes the `-v7.3` flag. This is a necessary technical choice to handle the large size of the output variables. This flag instructs MATLAB to use the Version 7.3 MAT-file format, which is based on HDF5 and can store variables larger than 2 GB. Without this flag, saving the extensive results from these models would result in an error.
 
 ## Data Information
 
@@ -141,6 +147,10 @@ The results in the paper were obtained using the following environments.
     * **Memory**: 64 GB
     * **OS**: macOS
 * **Software**: The software environment (MATLAB version and toolboxes) is the same as that used for the Simulation Analysis.
+
+## License
+
+This package is licensed under the MIT License (see `LICENSE` file).
 
 ## References
 

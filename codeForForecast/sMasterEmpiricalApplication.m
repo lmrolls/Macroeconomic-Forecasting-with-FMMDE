@@ -10,15 +10,7 @@
 %% subdirectories to the MATLAB path, allowing the empirical application to 
 %% run smoothly without requiring manual adjustments.
 %% Add folders containing data and supplementary toolboxes (functions)
-%% ========================================================================
-%
-% - Method 1: Direct calling (simple, for scripts in the same folder).
-% - Method 2: Using run() from a subfolder (recommended for organization).
-%
-% It also adds a 'utils' folder for shared helper functions.
-%
-% Created: 15-Jun-2025
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %% ========================================================================

@@ -166,9 +166,9 @@ end
 
 %%
 
-% =================================================================
-% 3. GENERATE THE COMPLETE, WRAPPED LATEX TABLE (Final Header Alignment)
-% =================================================================
+% ==================================================
+% 3. GENERATE THE COMPLETE, WRAPPED LATEX TABLE 
+% =================================================
 
 
 % This script generates the complete, wrapped LaTeX table for Table 4.

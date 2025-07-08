@@ -16,7 +16,15 @@ The paper analyzes the forecasting performance of a new class of factor models w
 1.  It introduces a **novel sequential testing methodology** for selecting the number of factors in FMMDE models and demonstrates its effectiveness through simulations.
 2.  It conducts an extensive empirical analysis comparing FMMDE with alternative methods to improve predictions of U.S. macroeconomic aggregates, using the comprehensive FRED-MD dataset.
 
-**Important Note on Reproducibility**: The scripts in this package use a fixed random seed to ensure the exact reproducibility of the provided outputs. Consequently, these results may not perfectly match those in the final published paper, which were generated without setting a specific seed.
+## A Note on Exact Reproducibility
+
+This package is configured to ensure the highest degree of reproducibility. However, there is a key distinction between the simulation and empirical sections:
+
+* **Simulation Studies (Tables 1-5):** All simulation scripts use a fixed random seed. Therefore, the results you generate will **exactly** match the provided output tables.
+
+* **Empirical Analysis (Tables 6-11):** The empirical forecasting pipeline does not use a fixed global seed. The results are numerically consistent and statistically identical to those in the paper. While most models are deterministic, minor stochastic variations may lead to negligible discrepancies for two specific methods due to their underlying algorithms:
+    * The **FMMDE Sequential Test** (`FMMDE_ST`), which relies on a bootstrap procedure.
+    * The **Independent Component Analysis (ICA)**, which uses a random initialization process.
 
 ## Repository Structure and Outputs
 
